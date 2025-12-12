@@ -2,9 +2,9 @@
   <div v-if="show" class="splash-container">
     <!-- Animated Background Particles -->
     <div class="particles">
-      <div 
-        v-for="i in 20" 
-        :key="i" 
+      <div
+        v-for="i in 20"
+        :key="i"
         class="particle"
         :style="{
           left: `${Math.random() * 100}%`,
@@ -25,7 +25,7 @@
         <div class="outer-ring">
           <div class="outer-ring-inner"></div>
         </div>
-        
+
         <!-- Middle Ring -->
         <div class="middle-ring">
           <div class="middle-ring-inner"></div>
@@ -57,7 +57,7 @@
       <div class="text-content">
         <h1 class="main-title">FGEI INDUCTION PORTAL</h1>
         <p class="subtitle">Welcome to Your Journey</p>
-        
+
         <!-- Loading Animation -->
         <div class="loading-dots">
           <div class="dot dot-1"></div>
@@ -327,116 +327,116 @@ onUnmounted(() => {
 
 /* Animations */
 @keyframes float {
-  0%, 100% { 
-    transform: translateY(0px) translateX(0px); 
-    opacity: 0; 
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0;
   }
-  50% { 
-    transform: translateY(-20px) translateX(10px); 
-    opacity: 1; 
+  50% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 1;
   }
 }
 
 @keyframes float-gentle {
-  0%, 100% { 
-    transform: translateY(0px); 
+  0%, 100% {
+    transform: translateY(0px);
   }
-  50% { 
-    transform: translateY(-10px); 
+  50% {
+    transform: translateY(-10px);
   }
 }
 
 @keyframes scale-in {
-  0% { 
-    transform: scale(0) rotate(0deg); 
-    opacity: 0; 
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
   }
-  50% { 
-    transform: scale(1.1) rotate(180deg); 
+  50% {
+    transform: scale(1.1) rotate(180deg);
   }
-  100% { 
-    transform: scale(1) rotate(360deg); 
-    opacity: 1; 
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
   }
 }
 
 @keyframes ping-slow {
-  0% { 
-    transform: scale(1); 
-    opacity: 0.8; 
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
   }
-  100% { 
-    transform: scale(1.5); 
-    opacity: 0; 
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
   }
 }
 
 @keyframes spin-slow {
-  from { 
-    transform: rotate(0deg); 
+  from {
+    transform: rotate(0deg);
   }
-  to { 
-    transform: rotate(360deg); 
+  to {
+    transform: rotate(360deg);
   }
 }
 
 @keyframes pulse-slow {
-  0%, 100% { 
-    transform: scale(1); 
+  0%, 100% {
+    transform: scale(1);
   }
-  50% { 
-    transform: scale(1.05); 
+  50% {
+    transform: scale(1.05);
   }
 }
 
 @keyframes bounce-slow {
-  0%, 100% { 
-    transform: translateY(0); 
+  0%, 100% {
+    transform: translateY(0);
   }
-  50% { 
-    transform: translateY(-10px); 
+  50% {
+    transform: translateY(-10px);
   }
 }
 
 @keyframes slide-up {
-  0% { 
-    transform: translateX(-50%) translateY(40px); 
-    opacity: 0; 
+  0% {
+    transform: translateX(-50%) translateY(40px);
+    opacity: 0;
   }
-  100% { 
-    transform: translateX(-50%) translateY(0); 
-    opacity: 1; 
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
   }
 }
 
 @keyframes slide-down {
-  0% { 
-    transform: translateY(-30px); 
-    opacity: 0; 
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
   }
-  100% { 
-    transform: translateY(0); 
-    opacity: 1; 
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
 @keyframes fade-in-up {
-  0% { 
-    transform: translateY(20px); 
-    opacity: 0; 
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
   }
-  100% { 
-    transform: translateY(0); 
-    opacity: 1; 
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
 @keyframes fade-in-delayed {
-  0% { 
-    opacity: 0; 
+  0% {
+    opacity: 0;
   }
-  100% { 
-    opacity: 1; 
+  100% {
+    opacity: 1;
   }
 }
 
@@ -445,11 +445,11 @@ onUnmounted(() => {
 }
 
 @keyframes fade-in-delayed-2 {
-  0% { 
-    opacity: 0; 
+  0% {
+    opacity: 0;
   }
-  100% { 
-    opacity: 1; 
+  100% {
+    opacity: 1;
   }
 }
 </style>

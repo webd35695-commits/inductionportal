@@ -26,9 +26,8 @@ use App\Http\Controllers\TestCenterController;
 use App\Http\Controllers\SupportController;
 
 Route::get('/', function () {
-    return inertia('Welcome');
+    return redirect('/login');
 });
-
 
 // Role-specific routes
 

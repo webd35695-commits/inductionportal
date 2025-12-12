@@ -28,24 +28,23 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     // app/Http/Controllers/Auth/AuthenticatedSessionController.php
-    public function store(LoginRequest $request)
-    {
+  public function store(LoginRequest $request)
+{
+    $request->authenticate();
+    $request->session()->regenerate();
 
+    $user = $request->user();
+    $user->load('roles', 'permissions');
 
-        $request->authenticate();
-        $request->session()->regenerate();
-
-        $user = $request->user();
-        $user->load('roles', 'permissions');
-        return redirect()->intended(
-            match (true) {
-                $user->hasRole('super_admin') => route('admin.dashboard'),
-                $user->hasRole('admin') => route('admin.dashboard'),
-                $user->hasRole('candidate') => route('candidate.dashboard'),
-                default => route('welcome')
-            }
-        );
-    }
+    return redirect()->intended(
+        match (true) {
+            $user->hasRole('super_admin') => route('admin.dashboard'),
+            $user->hasRole('admin') => route('admin.dashboard'),
+            $user->hasRole('candidate') => route('candidate.dashboard'),
+            default => route('welcome')
+        }
+    );
+}
 
     /**
      *
