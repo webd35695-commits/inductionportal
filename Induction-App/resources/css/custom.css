@@ -1,0 +1,116 @@
+
+:root {
+    --background-color: #0E5722;
+    --border-color: #0E5722;
+    --custom-color: black;
+}
+
+
+.custom-color{
+ color: var(--custom-color);
+}
+
+
+h2.text-2xl.font-bold.text-gray-800 {
+    color: #0e5723;
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 30px;
+}
+.custombg{
+   background-color: var(--background-color);
+}
+.border-oranges{
+        border-color: var(--border-color);
+
+}
+#provinceTable {
+    width: 100% !important;
+}
+
+thead th {
+    background-color: var(--background-color);
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    color: white;
+
+}
+thead th{
+    color: white !important;
+}
+
+#provinceTable tbody tr:hover {
+    background-color: #f9fafb;
+}
+.dataTables_wrapper .dataTables_filter input {
+    border: 2px solid var(--border-color);
+    border-radius: 3px;
+    padding: 5px;
+    background-color: transparent;
+    color: inherit;
+    margin-left: 3px;
+    width: 21vw;
+    margin-left: 0.5rem;
+
+}
+
+td,
+th {
+    border: 1px dashed;
+}
+svg.w-5.h-5.mr-2.text-white.group-hover\:text-white {
+    color: white !important;
+}
+
+span.bg-green-100.text-green-800.inline-flex.px-3.py-1.text-xs.font-semibold.leading-5.rounded-full {
+    background:  var(--background-color);
+    color: white !important;
+}
+
+
+select.block.w-full.px-3.py-2.text-base.border.border-gray-300.rounded-md.shadow-sm.focus\:outline-none.focus\:ring-indigo-500.focus\:border-indigo-500.sm\:text-sm {
+    width: 5vw;
+    border: 2px solid var(--border-color);
+}
+
+.dataTables_wrapper .dataTables_length select {
+    margin-right: 0.5rem;
+}
+.pagination {
+    display: flex;
+    gap: 0.5rem;
+}
+
+
+a.inline-flex.items-center.px-4.py-2.text-sm.font-medium.text-gray-700.bg-white.border.border-gray-300.rounded-md.shadow-sm.hover\:bg-gray-50.focus\:outline-none.focus\:ring-2.focus\:ring-offset-2.focus\:ring-\[\#0e5723\] {
+    background:  var(--background-color);
+    color: white;
+    font-weight: bold;
+}
+
+
+.customcolor div{
+    color: white !important;
+}
+/* @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'); */
+
+.font-roboto { font-family: 'Roboto', sans-serif; }
+
+/* Dropdown styling to match Design 1 */
+.dropdown-content {
+  width: 220px;
+  padding: 0;
+}
+.dropdown-link {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #333;
+}
+.dropdown-link:hover {
+  background-color: #f5f5f5;
+}
+.user-info-section {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}

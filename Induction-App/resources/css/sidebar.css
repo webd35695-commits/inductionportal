@@ -1,0 +1,22 @@
+.slide-enter-active,
+.slide-leave-active {
+    transition: all 0.3s ease;
+    max-height: 300px;
+    overflow: hidden;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+    max-height: 0;
+    opacity: 0;
+}
+aside.w-64.h-screen.overflow-y-auto.bg-white.border-r.border-gray-200.shadow-sm {
+    border-right: 3px solid #0b431b !important;
+}
+
+svg.w-5.h-5 {
+    color: #0e5723 !important;
+}
+ svg.w-4{
+ color: #0e5723 !important;
+ }

@@ -1,0 +1,8 @@
+/*Gr Custom all csss here */
+@import 'sidebar.css';
+@import 'custom.css';
+@import 'candidate.css';
+/* end */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
