@@ -11,7 +11,9 @@ use App\Models\User;
 use App\Models\Candidate\CandidateProfile;
 use App\Models\AgeRelaxation;
 use App\Models\AppliedPosts;
+use App\Models\cities;
 use App\Models\Payment;
+use App\Models\Post;
 use Spatie\Permission\Models\Role;
 
 class DummyApplicantsSeeder extends Seeder
@@ -36,8 +38,8 @@ class DummyApplicantsSeeder extends Seeder
         $femaleFirst = ['Ayesha','Fatima','Maryam','Hafsa','Zainab','Sana','Saba','Amna','Iqra','Hira','Fiza','Noor','Sidra','Mahnoor','Laiba','Areeba','Hadia','Rabia','Sumaira','Sadia','Kainat','Nimra','Aiman','Farah','Anam','Saima','Bushra','Nida','Tooba','Eman'];
         $lastNames   = ['Khan','Ahmed','Ali','Hussain','Akhtar','Malik','Sheikh','Butt','Chaudhry','Raza','Abbasi','Rajput','Mirza','Qureshi','Siddiqui','Shah','Gujjar','Arain','Jatt','Bhatti','Chohan','Awan','Mughal','Sahi','Ranjha','Gondal','Tarar','Cheema','Warraich','Joyia'];
 
-        $cities = \App\Models\Cities::pluck('id')->toArray();
-        $posts  = \App\Models\Post::pluck('id')->toArray();
+        $cities = cities::pluck('id')->toArray();
+        $posts  = Post::pluck('id')->toArray();
 
         if (empty($cities) || empty($posts)) {
             $this->command->error("Cities or Posts missing! Run main seeders first.");
@@ -55,7 +57,7 @@ class DummyApplicantsSeeder extends Seeder
 
             $dob = $faker->dateTimeBetween('-45 years', '-22 years')->format('Y-m-d');
 
-            $user = User::create([
+            $user = User::firstOrCreate(['email' => $email], [
                 'name'              => $name,
                 'email'             => $faker->unique()->safeEmail,
                 'email_verified_at' => now(),
@@ -208,7 +210,7 @@ class DummyApplicantsSeeder extends Seeder
             $selected = $faker->randomElements($posts, $numApps);
 
             foreach ($selected as $post_id) {
-                $applied = AppliedPosts::create([
+                $applied = AppliedPosts::updateOrCreate(['user_id' => $candidate->id, 'post_id' => $postId], [
                     'user_id'           => $candidate->id,
                     'post_id'           => $post_id,
                     'preferred_city_id' => $faker->randomElement($cities),
@@ -237,3 +239,5 @@ class DummyApplicantsSeeder extends Seeder
         $this->command->info("Applications & payments seeded!");
     }
 }
+
+

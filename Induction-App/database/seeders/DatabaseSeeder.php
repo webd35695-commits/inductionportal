@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->seedCenterPosts();
 
         $this->call(RolePermissionSeeder::class);
-        $this->call(DummyApplicantsSeeder::class);
+
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
