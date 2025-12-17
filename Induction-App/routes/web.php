@@ -221,6 +221,9 @@ Route::delete('/candidate/qualification/{id}', [CandidateProfileController::clas
 Route::post('/candidate/qualifications/update', [CandidateProfileController::class, 'updateQualifications'])
     ->name('candidate.qualifications.update');
 
+Route::get('/api/qualification-categories/{typeId}', [CandidateProfileController::class, 'fetchQualificationCategories'])
+    ->name('api.qualification-categories.fetch');
+
 // routes/web.php
 Route::get('/profile/status', function () {
     $lastUpdate = Cache::get('last_profile_update_' . auth()->id());

@@ -31,7 +31,15 @@ class QualificationCategoryController extends Controller
             'status' => 'required|in:Active,Inactive',
         ]);
 
-        QualificationCategory::create($request->all());
+        $category = QualificationCategory::create($request->all());
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Qualification category added successfully.',
+                'category' => $category,
+            ]);
+        }
+
         return redirect()->route('qualification-categories.index')->with('message', 'Qualification category added successfully.');
     }
 

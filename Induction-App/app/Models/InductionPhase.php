@@ -11,7 +11,7 @@ class InductionPhase extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'status'];
+    protected $fillable = ['title', 'status', 'start_date', 'end_date'];
 
     public function Posts():HasMany
     {

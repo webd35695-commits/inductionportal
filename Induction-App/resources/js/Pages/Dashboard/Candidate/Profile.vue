@@ -228,22 +228,38 @@
               <!-- Mobile -->
               <div class="space-y-2">
                 <label class="block text-sm font-semibold text-gray-700">Mobile Number *</label>
-                <input
-                  type="tel"
-                  v-model="form.mobile"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                />
+                <div class="relative flex rounded-xl shadow-sm">
+                  <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-gray-300 bg-gray-50 text-gray-500 font-medium">
+                    03
+                  </span>
+                  <input
+                    type="tel"
+                    :value="form.mobile ? form.mobile.substring(2) : ''"
+                    @input="handleMobileInput"
+                    maxlength="9"
+                    placeholder="XXXXXXXXX"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-r-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                  />
+                </div>
                 <p v-if="form.errors.mobile" class="text-sm text-red-600">{{ form.errors.mobile }}</p>
               </div>
 
               <!-- WhatsApp -->
               <div class="space-y-2">
                 <label class="block text-sm font-semibold text-gray-700">WhatsApp Number</label>
-                <input
-                  type="tel"
-                  v-model="form.phone"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                />
+                <div class="relative flex rounded-xl shadow-sm">
+                  <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-gray-300 bg-gray-50 text-gray-500 font-medium">
+                    03
+                  </span>
+                  <input
+                    type="tel"
+                    :value="form.phone ? form.phone.substring(2) : ''"
+                    @input="handlePhoneInput"
+                    maxlength="9"
+                    placeholder="XXXXXXXXX"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-r-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                  />
+                </div>
                 <p v-if="form.errors.phone" class="text-sm text-red-600">{{ form.errors.phone }}</p>
               </div>
 
@@ -332,6 +348,7 @@
                   @change="handleMaritalStatusChange"
                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                 >
+                <option value=""> Select Marital Status </option>
                   <option value="Single">Single</option>
                   <option value="Married">Married</option>
                   <option value="Divorced">Divorced</option>
@@ -621,13 +638,37 @@
                   <p v-if="qualificationFormErrors.degree" class="text-sm text-red-600">{{ qualificationFormErrors.degree }}</p>
                 </div>
 
-                <!-- Field of Study -->
+                <!-- Qualification Category -->
                 <div class="space-y-2">
-                  <label class="block text-sm font-semibold text-gray-700">Field of Study *</label>
+                  <label class="block text-sm font-semibold text-gray-700">Qualification Category (Major Subject) *</label>
+                  <div class="relative">
+                      <select
+                        v-model="qualificationForm.category_id"
+                        :disabled="loadingCategories"
+                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 disabled:bg-gray-50"
+                      >
+                        <option value="">{{ loadingCategories ? 'Loading...' : 'Select Category' }}</option>
+                        <option v-for="cat in qualificationCategories" :key="cat.id" :value="cat.id">
+                          {{ cat.name }}
+                        </option>
+                      </select>
+                       <div v-if="loadingCategories" class="absolute right-3 top-3.5">
+                            <svg class="animate-spin h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                       </div>
+                  </div>
+                  <p v-if="qualificationFormErrors.category_id" class="text-sm text-red-600">{{ qualificationFormErrors.category_id }}</p>
+                </div>
+
+                <!-- Specialization -->
+                <div class="space-y-2">
+                  <label class="block text-sm font-semibold text-gray-700">Specialization *</label>
                   <input
                     type="text"
                     v-model="qualificationForm.field"
-                    placeholder="e.g., Computer Science"
+                    placeholder="e.g., Software Engineering"
                     class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   />
                   <p v-if="qualificationFormErrors.field" class="text-sm text-red-600">{{ qualificationFormErrors.field }}</p>
@@ -657,6 +698,17 @@
                     class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   />
                   <p v-if="qualificationFormErrors.year" class="text-sm text-red-600">{{ qualificationFormErrors.year }}</p>
+                </div>
+
+                <!-- Grade / CGPA / Percentage -->
+                 <div class="space-y-2">
+                  <label class="block text-sm font-semibold text-gray-700">Grade / Div / CGPA / Percentage</label>
+                  <input
+                    type="text"
+                    v-model="qualificationForm.grade"
+                    placeholder="e.g., A, 1st Div, 3.5, 80%"
+                     class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                  />
                 </div>
               </div>
 
@@ -698,10 +750,12 @@
                       </div>
                       <div>
                         <h4 class="text-lg font-semibold text-gray-900">{{ getDegreeName(qualification.degree) }}</h4>
-                        <p class="text-sm text-gray-600">{{ qualification.field }}</p>
+                        <!-- Display Category Name if available -->
+                        <p class="text-sm font-medium text-gray-800">{{ qualification.category_name || 'N/A' }}</p>
+                        <p class="text-xs text-gray-600">Specialization: {{ qualification.field || 'N/A' }}</p>
                       </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-4 ml-15">
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 ml-15">
                       <div>
                         <p class="text-xs text-gray-500 mb-1">Institution</p>
                         <p class="text-sm font-medium text-gray-700">{{ qualification.institution }}</p>
@@ -709,6 +763,10 @@
                       <div>
                         <p class="text-xs text-gray-500 mb-1">Year</p>
                         <p class="text-sm font-medium text-gray-700">{{ qualification.year }}</p>
+                      </div>
+                       <div>
+                        <p class="text-xs text-gray-500 mb-1">Grade/CGPA</p>
+                        <p class="text-sm font-medium text-gray-700">{{ qualification.grade || '-' }}</p>
                       </div>
                     </div>
                   </div>
@@ -1103,6 +1161,72 @@
         </div>
       </div>
 
+      <!-- Add Category Modal -->
+      <transition
+        enter-active-class="transition ease-out duration-300"
+        enter-from-class="opacity-0 scale-95"
+        enter-to-class="opacity-100 scale-100"
+        leave-active-class="transition ease-in duration-200"
+        leave-from-class="opacity-100 scale-100"
+        leave-to-class="opacity-0 scale-95"
+      >
+        <div v-if="showCategoryModal" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" @click="closeCategoryModal"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                  <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                  </div>
+                  <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                      Add New Qualification Category
+                    </h3>
+                    <div class="mt-2">
+                      <p class="text-sm text-gray-500 mb-4">
+                        Can't find your field of study? Add it here.
+                      </p>
+                      <input
+                        type="text"
+                        v-model="newCategoryName"
+                        placeholder="Enter category name (e.g., Computer Science)"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button
+                    type="button"
+                    @click="saveNewCategory"
+                    :disabled="addingCategory || !newCategoryName"
+                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50"
+                >
+                  <svg v-if="addingCategory" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  {{ addingCategory ? 'Saving...' : 'Add Category' }}
+                </button>
+                <button
+                    type="button"
+                    @click="closeCategoryModal"
+                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -1126,6 +1250,141 @@ const husbandDistricts = ref([]);
 const husbandCities = ref([]);
 const showSuccessToast = ref(false);
 const successMessage = ref("");
+const qualificationCategories = ref([]);
+const loadingCategories = ref(false);
+const showCategoryModal = ref(false);
+const newCategoryName = ref("");
+const addingCategory = ref(false);
+
+// Qualifications form
+const qualificationForm = ref({
+  id: null,
+  degree: "",
+  field: "",
+  category_id: "",
+  institution: "",
+  year: "",
+  grade: "",
+});
+const qualificationFormErrors = ref({});
+const editingQualification = ref(false);
+const editingIndex = ref(null);
+
+// Get degree name by ID
+const getDegreeName = (degreeId) => {
+  const degree = qualification_types.find((type) => type.id == degreeId);
+  return degree ? degree.name : "Unknown";
+};
+
+
+
+
+// Reset qualification form
+const resetQualificationForm = () => {
+  qualificationForm.value = {
+    id: null,
+    degree: "",
+    field: "",
+    category_id: "",
+    institution: "",
+    year: "",
+    grade: "",
+  };
+  qualificationFormErrors.value = {};
+  editingQualification.value = false;
+  editingIndex.value = null;
+};
+
+// Validate qualification form
+const validateQualificationForm = () => {
+  const errors = {};
+  if (!qualificationForm.value.degree) {
+    errors.degree = "Degree is required";
+  }
+  if (!qualificationForm.value.field) {
+    errors.field = "Specialization is required";
+  }
+  if (!qualificationForm.value.category_id) {
+    errors.category_id = "Qualification Category is required";
+  }
+  if (!qualificationForm.value.institution) {
+    errors.institution = "Institution is required";
+  }
+  if (!qualificationForm.value.year) {
+    errors.year = "Year of completion is required";
+  } else if (
+    qualificationForm.value.year < 1900 ||
+    qualificationForm.value.year > new Date().getFullYear()
+  ) {
+    errors.year = "Please enter a valid year";
+  }
+  qualificationFormErrors.value = errors;
+  return Object.keys(errors).length === 0;
+};
+
+// Save qualification (Add or Update)
+const saveQualification = () => {
+  if (!validateQualificationForm()) {
+    return;
+  }
+
+  // Find category name for display, though we store ID.
+  // Note: we are not using the category name as 'degree_name' anymore. 'field' is Specialization/Degree Name.
+  // The 'degree_name' column in DB acts as Specialization/Field of Study.
+  const selectedCategory = qualificationCategories.value.find(c => c.id === qualificationForm.value.category_id);
+  const categoryName = selectedCategory ? selectedCategory.name : '';
+
+  const qualificationData = {
+    id: qualificationForm.value.id,
+    degree_type_id: qualificationForm.value.degree,
+    qualification_category_id: qualificationForm.value.category_id,
+    degree_name: qualificationForm.value.field, // Specialization
+    institute_name: qualificationForm.value.institution,
+    passing_year: qualificationForm.value.year,
+    grade: qualificationForm.value.grade,
+  };
+
+  const formData = useForm(qualificationData);
+
+  const submitRoute = qualificationForm.value.id
+      ? route("candidate.qualification.update")
+      : route("candidate.qualification.store");
+
+  formData.post(submitRoute, {
+    preserveScroll: true,
+    onSuccess: (page) => {
+      // Update local list - REMOVED manual update to fix matching issue
+      // Inertia reload (via preserveScroll: true) will update 'qualificationData' prop,
+      // and our watcher will sync 'qualifications'. This avoids duplicates.
+
+      resetQualificationForm();
+      showSuccessMessage(editingQualification.value ? "Qualification updated successfully!" : "Qualification added successfully!");
+    },
+    onError: (errors) => {
+      console.error("Validation errors:", errors);
+      qualificationFormErrors.value = errors;
+    },
+  });
+};
+
+// Edit qualification
+const editQualification = (qualification, index) => {
+  qualificationForm.value = {
+    id: qualification.id,
+    degree: qualification.degree,
+    field: qualification.field,
+    category_id: qualification.category_id,
+    institution: qualification.institution,
+    year: qualification.year,
+    grade: qualification.grade,
+  };
+
+  editingQualification.value = true;
+  editingIndex.value = index;
+  qualificationFormErrors.value = {};
+};
+
+
 
 
 
@@ -1169,17 +1428,17 @@ const form = useForm({
 
 const profileCompletion = computed(() => {
   let score = 0;
-  
+
   // 1. Photo (10%)
   if (photoPreview.value || userDetails?.candidate_profile?.photo_path) {
     score += 10;
   }
-  
+
   // 2. Qualifications (20%)
   if (qualifications.value.length > 0) {
     score += 20;
   }
-  
+
   // 3. Personal & Contact Info (70%)
   const requiredFields = [
     form.name,
@@ -1196,20 +1455,106 @@ const profileCompletion = computed(() => {
     form.district,
     form.city
   ];
-  
+
   const filledCount = requiredFields.filter(field => {
     return field !== null && field !== undefined && field.toString().trim() !== '';
   }).length;
-  
+
   if (requiredFields.length > 0) {
     score += (filledCount / requiredFields.length) * 70;
   }
-  
+
   return Math.round(score);
 });
 
 const usedDegreeIds = computed(() => new Set(qualifications.value.map(q => q.degree).filter(Boolean)));
-const availableTypes = computed(() => (qualification_types || []).filter(t => !usedDegreeIds.value.has(t.id) || qualificationForm.value.degree === t.id));
+const availableTypes = computed(() => {
+  return qualification_types.filter(type =>
+    !usedDegreeIds.value.has(type.id) || type.id == qualificationForm.value.degree
+  );
+});
+
+const fetchCategories = async (typeId) => {
+  if (!typeId) {
+    qualificationCategories.value = [];
+    return;
+  }
+  loadingCategories.value = true;
+  try {
+    const response = await axios.get(route('api.qualification-categories.fetch', { typeId }));
+    qualificationCategories.value = response.data.categories;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    qualificationCategories.value = [];
+  } finally {
+    loadingCategories.value = false;
+  }
+};
+
+// Watch for degree change to fetch categories
+watch(() => qualificationForm.value.degree, (newVal) => {
+  if (newVal) {
+    fetchCategories(newVal);
+  } else {
+    qualificationCategories.value = [];
+  }
+});
+
+const openCategoryModal = () => {
+  showCategoryModal.value = true;
+  newCategoryName.value = "";
+};
+
+const closeCategoryModal = () => {
+  showCategoryModal.value = false;
+  newCategoryName.value = "";
+};
+
+const saveNewCategory = async () => {
+  if (!newCategoryName.value.trim() || !qualificationForm.value.degree) return;
+
+  addingCategory.value = true;
+  try {
+     // We need an endpoint to store this.
+     // Using existing QualificationCategoryController.store method if route exists?
+     // Or a specific API route.
+     // For now let's assume we can post to the resource route if it accepts JSON
+     // The implementation plan mentioned QualificationCategoryController.store.
+     // But that controller returns a redirect. We might need a dedicated API endpoint or check if it detects JSON.
+     // Let's quick fix strict usage.
+     // I will use a new route or modify the controller.
+     // For this iteration, I'll modify the controller to return JSON if request expects JSON.
+
+    const response = await axios.post(route('qualification-categories.store'), {
+        qualification_type_id: qualificationForm.value.degree,
+        name: newCategoryName.value,
+        status: 'Active'
+    });
+
+    // Assuming the controller handles this or I modify it.
+    // Actually standard Inertia controller redirects.
+    // I need to add a specialized endpoint or modify the controller.
+    // Let's modify the controller in next steps. For now write the frontend code assuming it works.
+
+    await fetchCategories(qualificationForm.value.degree);
+    // Auto select the new category (naive find)
+    const newCat = qualificationCategories.value.find(c => c.name === newCategoryName.value);
+    if(newCat) qualificationForm.value.category_id = newCat.id;
+
+    closeCategoryModal();
+    showSuccessMessage("Category added successfully");
+
+  } catch (error) {
+    console.error("Error adding category:", error);
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Failed to add category. It may already exist.',
+    });
+  } finally {
+    addingCategory.value = false;
+  }
+};
 
 
 // Initialize qualifications from database
@@ -1223,15 +1568,36 @@ onMounted(() => {
       id: qual.id || null,
       degree: qual.degree_type_id || "",
       field: qual.degree_name || "",
+      category_id: qual.qualification_category_id || "",
+      category_name: qual.qualification_category ? qual.qualification_category.name : "",
       institution: qual.institute_name || "",
       year: qual.passing_year || "",
+      grade: qual.grade || "",
     }));
   }
   loadUserAddress();
+
+
   if (userDetails?.user_spouses?.length) {
     loadHusbandAddress();
   }
 });
+
+// Watch for prop updates to sync qualifications list (important for ID assignment after add)
+watch(() => usePage().props.qualificationData, (newData) => {
+    if (newData) {
+        qualifications.value = newData.map((qual) => ({
+          id: qual.id || null,
+          degree: qual.degree_type_id || "",
+          field: qual.degree_name || "",
+          category_id: qual.qualification_category_id || "",
+          category_name: qual.qualification_category ? qual.qualification_category.name : "",
+          institution: qual.institute_name || "",
+          year: qual.passing_year || "",
+          grade: qual.grade || "",
+        }));
+    }
+}, { deep: true });
 
 // Load user address districts and cities
 const loadUserAddress = async () => {
@@ -1273,113 +1639,9 @@ watch([() => form.husbandProvince, () => form.husbandDistrict], async () => {
   await loadHusbandAddress();
 });
 
-// Qualifications form
-const qualificationForm = ref({
-  id: null,
-  degree: "",
-  field: "",
-  institution: "",
-  year: "",
-});
-const qualificationFormErrors = ref({});
-const editingQualification = ref(false);
-const editingIndex = ref(null);
 
-// Get degree name by ID
-const getDegreeName = (degreeId) => {
-  const degree = qualification_types.find((type) => type.id == degreeId);
-  return degree ? degree.name : "Unknown";
-};
 
-// Reset qualification form
-const resetQualificationForm = () => {
-  qualificationForm.value = {
-    id: null,
-    degree: "",
-    field: "",
-    institution: "",
-    year: "",
-  };
-  qualificationFormErrors.value = {};
-  editingQualification.value = false;
-  editingIndex.value = null;
-};
 
-// Validate qualification form
-const validateQualificationForm = () => {
-  const errors = {};
-  if (!qualificationForm.value.degree) {
-    errors.degree = "Degree is required";
-  }
-  if (!qualificationForm.value.field) {
-    errors.field = "Field of study is required";
-  }
-  if (!qualificationForm.value.institution) {
-    errors.institution = "Institution is required";
-  }
-  if (!qualificationForm.value.year) {
-    errors.year = "Year of completion is required";
-  } else if (
-    qualificationForm.value.year < 1900 ||
-    qualificationForm.value.year > new Date().getFullYear()
-  ) {
-    errors.year = "Please enter a valid year";
-  }
-  qualificationFormErrors.value = errors;
-  return Object.keys(errors).length === 0;
-};
-
-// Save qualification (Add or Update)
-const saveQualification = () => {
-  if (!validateQualificationForm()) {
-    return;
-  }
-  const qualificationData = {
-    id: qualificationForm.value.id,
-    degree_type_id: qualificationForm.value.degree,
-    degree_name: qualificationForm.value.field,
-    institute_name: qualificationForm.value.institution,
-    passing_year: qualificationForm.value.year,
-  };
-  const formData = useForm(qualificationData);
-  formData.post(route("candidate.qualification.store"), {
-    preserveScroll: true,
-    onSuccess: (page) => {
-      const newQualification = {
-        id: qualificationForm.value.id,
-        degree: qualificationForm.value.degree,
-        field: qualificationForm.value.field,
-        institution: qualificationForm.value.institution,
-        year: qualificationForm.value.year,
-      };
-      if (editingQualification.value) {
-        qualifications.value[editingIndex.value] = newQualification;
-      } else {
-        qualifications.value.push(newQualification);
-      }
-      resetQualificationForm();
-      showSuccessMessage(editingQualification.value ? "Qualification updated successfully!" : "Qualification added successfully!");
-    },
-    onError: (errors) => {
-      console.error("Validation errors:", errors);
-      qualificationFormErrors.value = errors;
-    },
-  });
-};
-
-// Edit qualification
-const editQualification = (qualification, index) => {
-  qualificationForm.value = {
-    id: qualification.id,
-    degree: qualification.degree,
-    field: qualification.field,
-    institution: qualification.institution,
-    year: qualification.year,
-  };
-  editingQualification.value = true;
-  editingIndex.value = index;
-  qualificationFormErrors.value = {};
-};
 
 // Cancel edit
 const cancelEdit = () => {
@@ -1394,8 +1656,8 @@ const deleteQualification = (qualification, index) => {
       formData.delete(route("candidate.qualification.destroy", qualification.id), {
         preserveScroll: true,
         onSuccess: () => {
-          qualifications.value.splice(index, 1);
-          showSuccessMessage("Qualification deleted successfully!");
+             // Removed manual splice to rely on watcher update from props
+           showSuccessMessage("Qualification deleted successfully!");
         },
         onError: (errors) => {
           console.error("Delete error:", errors);
@@ -1428,6 +1690,66 @@ const handleCnicInput = (e) => {
   } else {
     form.errors.cnic = null;
     delete form.errors.cnic;
+  }
+};
+
+const handleMobileInput = (e) => {
+  // Remove non-numeric characters
+  let value = e.target.value.replace(/\D/g, '');
+
+  // Limit to 9 digits (since 03 is fixed)
+  if (value.length > 9) {
+    value = value.slice(0, 9);
+  }
+
+  // Update the input value to strictly show only the allowed digits
+  e.target.value = value;
+
+  // Update form model with 03 prefix
+  form.mobile = '03' + value;
+
+  // Validate length (must be 9 digits entered => 11 total)
+  if (value.length === 9) {
+     if(form.errors.mobile) {
+         form.errors.mobile = null;
+         delete form.errors.mobile;
+     }
+  } else if (value.length > 0) {
+     form.errors.mobile = "Mobile number must be 11 digits (03 + 9 digits)";
+  }
+};
+
+const handlePhoneInput = (e) => {
+  // Remove non-numeric characters
+  let value = e.target.value.replace(/\D/g, '');
+
+  // Limit to 9 digits (since 03 is fixed)
+  if (value.length > 9) {
+    value = value.slice(0, 9);
+  }
+
+  // Update the input value
+  e.target.value = value;
+
+  // Update form model with 03 prefix if there is input, else empty
+  if (value.length > 0) {
+      form.phone = '03' + value;
+
+      // Validate length
+      if (value.length === 9) {
+         if(form.errors.phone) {
+             form.errors.phone = null;
+             delete form.errors.phone;
+         }
+      } else {
+         form.errors.phone = "WhatsApp number must be 11 digits (03 + 9 digits)";
+      }
+  } else {
+      form.phone = '';
+      if(form.errors.phone) {
+          form.errors.phone = null;
+          delete form.errors.phone;
+      }
   }
 };
 

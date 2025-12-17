@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Carbon\Carbon;
 use Illuminate\Container\Attributes\Auth;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class CandidateDashboardController extends Controller
@@ -74,8 +74,11 @@ class CandidateDashboardController extends Controller
         $effectiveAge = $currentAge - ($relaxationDays / 365.25);
         $currentAge = $birthDate->diffInDays(Carbon::now()) / 365.25;
 
-        return Post::select(['id', 'name', 'min_age', 'max_age', 'post_gender','bps'])
-            ->with(['quotaSetting:id,post_id,province_id,open_merit,merit,women,special_persons'])
+             return Post::select(['id', 'name', 'min_age', 'max_age', 'post_gender','bps', 'induction_phase_id'])
+            ->with([
+                'quotaSetting:id,post_id,province_id,open_merit,merit,women,special_persons',
+                'inductionPhase:id,title,end_date'
+            ])
             ->where(function ($query) use ($profile) {
                 $query->where('post_gender', $profile->gender)
                     ->orWhere('post_gender', 'both');
@@ -89,7 +92,6 @@ class CandidateDashboardController extends Controller
                         ->where(function ($subQ) use ($profile) {
                             $subQ->where('open_merit', '>', 0)
                                 ->orWhere('merit', '>', 0);
-
                             if ($profile->gender === 'Female') {
                                 $subQ->orWhere('women', '>', 0);
                             }
@@ -101,7 +103,13 @@ class CandidateDashboardController extends Controller
                     $q->whereNull('province_id')->where('open_merit', '>', 0);
                 });
             })
-            ->get();
+            ->get()
+            ->map(function ($post) {
+                // Manually serialize to array to ensure deadline is included
+                $postData = $post->toArray();
+                $postData['deadline'] = $post->inductionPhase ? Carbon::parse($post->inductionPhase->end_date)->format('d M Y') : 'N/A';
+                return $postData;
+            });
     }
 
 public function apply(Request $request)

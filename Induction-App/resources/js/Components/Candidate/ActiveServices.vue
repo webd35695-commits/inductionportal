@@ -25,26 +25,51 @@
 
   <!-- Posts Grid -->
   <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-    <div v-for="post in posts" :key="post.id" class="card p-6 rounded-xl shadow-lg text-center">
-      <div class="flex justify-center mb-4">
-        <i class="fas fa-briefcase text-teal-600 text-3xl"></i>
+    <div v-for="post in posts" :key="post.id" class="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col">
+      
+      <!-- Card Header -->
+      <div class="px-6 pt-6 pb-4 bg-gradient-to-br from-white to-gray-50 flex-1">
+        <div class="flex items-start justify-between mb-4">
+          <div class="bg-indigo-50 p-3 rounded-xl group-hover:bg-indigo-100 transition-colors duration-300">
+             <i class="fas fa-briefcase text-indigo-600 text-xl"></i>
+          </div>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            BPS-{{ post.bps }}
+          </span>
+        </div>
+        
+        <h4 class="font-bold text-xl text-gray-900 mb-2 leading-tight">{{ post.name }}</h4>
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-4">
+           <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs font-medium uppercase tracking-wide">
+             {{ post.post_gender === 'both' ? 'Male / Female' : post.post_gender }}
+           </span>
+        </div>
       </div>
-      <h4 class="font-bold text-lg text-gray-800">{{ post.name }}  (BPS-{{ post.bps }}) {{ post.post_gender }}</h4>
-      <p class="text-sm text-gray-600 mt-2">Open till {{ post.deadline }}</p>
-      <button
-        @click="openApplyPopup(post)"
-        :disabled="hasApplied(post)"
-        :class="{
-          'text-teal-700 hover:text-amber-400 font-semibold transition-colors': !hasApplied(post),
-          'text-gray-400 cursor-not-allowed opacity-50': hasApplied(post)
-        }"
-        class="mt-4 inline-block"
-      >
-        {{ hasApplied(post) ? 'Already Applied' : 'Apply Now' }}
-      </button>
-      <p v-if="hasApplied(post)" class="text-xs text-green-600 mt-2">
-        <a href="#my-applications" class="underline">View in My Applications</a>
-      </p>
+
+      <!-- Card Footer -->
+      <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 mt-auto">
+        <div class="flex items-center justify-between mb-4" v-if="post.deadline">
+           <div class="flex flex-col">
+              <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Open Till</span>
+              <span class="text-sm font-semibold text-gray-900">{{ post.deadline }}</span>
+           </div>
+        </div>
+
+        <button
+          @click="openApplyPopup(post)"
+          :disabled="hasApplied(post)"
+          class="w-full py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          :class="hasApplied(post) 
+             ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+             : 'bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white shadow-indigo-200'"
+        >
+          {{ hasApplied(post) ? 'Applied' : 'Apply Now' }}
+        </button>
+        
+        <div v-if="hasApplied(post)" class="mt-3 text-center">
+             <a href="#my-applications" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">View Application</a>
+        </div>
+      </div>
     </div>
 
   </div>

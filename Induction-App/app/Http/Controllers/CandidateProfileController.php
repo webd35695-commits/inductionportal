@@ -31,8 +31,8 @@ class CandidateProfileController extends Controller
     {
         $userDetails = FetchUserHelper::fetchUserDetails();
         $qualificationData = Qualification::where('user_id', Auth::id())
-            ->with('degreeType')
-            ->get(['id', 'degree_type_id', 'degree_name', 'institute_name', 'passing_year']);
+            ->with(['degreeType', 'qualificationCategory:id,name'])
+            ->get(['id', 'degree_type_id', 'qualification_category_id', 'degree_name', 'institute_name', 'passing_year', 'grade', 'cgpa']);
         //   Log::info('user details that fetch: ' . json_encode($userDetails));
         $ageRelaxation = AgeRelaxation::where('user_id', Auth::id())->first();
         return Inertia::render('Dashboard/Candidate/Profile', [
@@ -57,23 +57,35 @@ class CandidateProfileController extends Controller
         ]);
     }
 
+    public function fetchQualificationCategories($typeId)
+    {
+        $categories = \App\Models\QualificationCategory::where('qualification_type_id', $typeId)
+            ->where('status', 'Active')
+            ->get(['id', 'name']);
+        return response()->json(['categories' => $categories]);
+    }
+
     public function storeQualification(Request $request)
     {
 
         $request->validate([
             'degree_type_id' => 'required|exists:qualification_types,id',
+            'qualification_category_id' => 'required|exists:qualification_categories,id', // Enforcing required as per UI
             'degree_name' => 'required|string|max:255',
             'institute_name' => 'required|string|max:255',
             'passing_year' => 'required|integer|min:1900|max:' . now()->year,
+            'grade' => 'required|string|max:255', // Enforcing required for grade as well
         ]);
 
         try {
             $qualification = Qualification::create([
                 'user_id' => Auth::id(),
                 'degree_type_id' => $request->degree_type_id,
+                'qualification_category_id' => $request->qualification_category_id,
                 'degree_name' => $request->degree_name,
                 'institute_name' => $request->institute_name,
                 'passing_year' => $request->passing_year,
+                'grade' => $request->grade,
             ]);
 
             return redirect()->back()->with('success', 'Qualifications updated successfully');
@@ -87,9 +99,11 @@ class CandidateProfileController extends Controller
         $request->validate([
             'id' => 'required|exists:qualifications,id',
             'degree_type_id' => 'required|exists:qualification_types,id',
+            'qualification_category_id' => 'required|exists:qualification_categories,id',
             'degree_name' => 'required|string|max:255',
             'institute_name' => 'required|string|max:255',
             'passing_year' => 'required|integer|min:1900|max:' . now()->year,
+            'grade' => 'required|string|max:255',
         ]);
 
         try {
@@ -106,9 +120,11 @@ class CandidateProfileController extends Controller
 
             $qualification->update([
                 'degree_type_id' => $request->degree_type_id,
+                'qualification_category_id' => $request->qualification_category_id,
                 'degree_name' => $request->degree_name,
                 'institute_name' => $request->institute_name,
                 'passing_year' => $request->passing_year,
+                'grade' => $request->grade,
             ]);
 
             return redirect()->back()->with('success', 'Qualifications Updated successfully');

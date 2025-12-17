@@ -56,6 +56,16 @@
                 <th
                   class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase border-b border-gray-200"
                 >
+                  Start Date
+                </th>
+                <th
+                  class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase border-b border-gray-200"
+                >
+                  End Date
+                </th>
+                <th
+                  class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase border-b border-gray-200"
+                >
                   Status
                 </th>
                 <th
@@ -86,6 +96,16 @@
                       </div>
                     </div>
                   </div>
+                </td>
+                <td
+                  class="px-6 py-4 text-sm text-gray-900 border-b border-gray-200 whitespace-nowrap"
+                >
+                   {{ phase.start_date }}
+                </td>
+                <td
+                  class="px-6 py-4 text-sm text-gray-900 border-b border-gray-200 whitespace-nowrap"
+                >
+                   {{ phase.end_date }}
                 </td>
                 <td
                   class="px-6 py-4 text-sm text-gray-500 border-b border-gray-200 whitespace-nowrap"

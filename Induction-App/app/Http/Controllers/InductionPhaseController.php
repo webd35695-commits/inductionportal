@@ -48,14 +48,10 @@ class InductionPhaseController extends Controller
         ]);
     }
 
-    public function update(Request $request, InductionPhase $inductionPhase)
+    public function update(UpdateInductionPhaseRequest $request, $id)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'status' => 'required|in:Active,Inactive',
-        ]);
-
-        $inductionPhase->update($request->all());
+        $inductionPhase = InductionPhase::findOrFail($id);
+        $inductionPhase->update($request->validated());
         return redirect()->route('InductionPhase.index')->with('message', 'Induction phase updated successfully');
     }
 

@@ -289,6 +289,8 @@ class DatabaseSeeder extends Seeder
         DB::table('induction_phases')->insert([
             'title' => 'Phase 1 - 2025',
             'status' => 'Active',
+            'start_date' => now(),
+            'end_date' => now()->addMonths(2),
             'created_at' => now(),
             'updated_at' => now(),
         ]);

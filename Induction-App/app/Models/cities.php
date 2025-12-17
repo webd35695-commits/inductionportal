@@ -19,10 +19,10 @@ class cities extends Model
      */
     public function district(): BelongsTo
     {
-        return $this->belongsTo(district::class);
+        return $this->belongsTo(District::class);
     }
 
-    
+
     /**
      * Get the candidates associated with the city
      */
@@ -37,5 +37,5 @@ class cities extends Model
     {
         return $this->hasMany(center::class, 'city_id');
     }
-    
+
 }

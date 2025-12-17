@@ -15,6 +15,9 @@ class qualification extends Model
         'degree_name',
         'institute_name',
         'passing_year',
+        'grade',
+        'cgpa',
+        'qualification_category_id',
         'status',
         'created_at',
         'updated_at',
@@ -22,7 +25,12 @@ class qualification extends Model
     //
     public function degreeType()
     {
-        return $this->belongsTo('App\Models\QualificationType', 'degree_type_id');
+        return $this->belongsTo(\App\Models\QualificationType::class, 'degree_type_id');
+    }
+
+    public function qualificationCategory()
+    {
+        return $this->belongsTo(\App\Models\QualificationCategory::class, 'qualification_category_id');
     }
     public function user(): BelongsTo
     {

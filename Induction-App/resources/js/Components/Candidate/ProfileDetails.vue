@@ -163,6 +163,9 @@
                         type="tel"
                         id="mobile"
                         v-model="form.mobile"
+                        @input="handleMobileInput"
+                        placeholder="03XXXXXXXXX"
+                        maxlength="11"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                     />
                     <p v-if="form.errors.mobile" class="mt-2 text-sm text-red-600">
@@ -175,6 +178,9 @@
                         type="tel"
                         id="phone"
                         v-model="form.phone"
+                        @input="handlePhoneInput"
+                        placeholder="03XXXXXXXXX"
+                        maxlength="11"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                     />
                     <p v-if="form.errors.phone" class="mt-2 text-sm text-red-600">
@@ -511,5 +517,25 @@ const handleDistrictChange = async () => {
         cities.value = [];
         form.city = '';
     }
+};
+const handleMobileInput = (e) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 0 && !value.startsWith('03')) {
+        // If user starts typing something other than 03, prepopulate or correct (simple enforcement: must start with 03)
+        // Here we just let them type but if they type '3' we assume '03' context.
+        // Or strictly enforce '03' prefix if length > 1
+        if (value.length >= 2 && value.substring(0, 2) !== '03') {
+             // For strict enforcement, one could force '03'
+        }
+    }
+    // Limit to 11 digits
+    if (value.length > 11) value = value.slice(0, 11);
+    form.mobile = value;
+};
+
+const handlePhoneInput = (e) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 11) value = value.slice(0, 11);
+    form.phone = value;
 };
 </script>

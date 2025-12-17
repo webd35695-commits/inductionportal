@@ -41,6 +41,22 @@
                                 </select>
                                 <p v-if="form.errors.status" class="mt-1 text-sm text-red-600">{{ form.errors.status }}</p>
                             </div>
+
+                            <div>
+                                <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date</label>
+                                <input v-model="form.start_date" id="start_date" type="date" required
+                                    class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#0e5723] focus:border-[#0e5723] sm:text-sm"
+                                    :class="{ 'border-red-500': form.errors.start_date }">
+                                <p v-if="form.errors.start_date" class="mt-1 text-sm text-red-600">{{ form.errors.start_date }}</p>
+                            </div>
+
+                            <div>
+                                <label for="end_date" class="block text-sm font-medium text-gray-700">End Date</label>
+                                <input v-model="form.end_date" id="end_date" type="date" required
+                                    class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#0e5723] focus:border-[#0e5723] sm:text-sm"
+                                    :class="{ 'border-red-500': form.errors.end_date }">
+                                <p v-if="form.errors.end_date" class="mt-1 text-sm text-red-600">{{ form.errors.end_date }}</p>
+                            </div>
                         </div>
 
                         <div class="flex justify-end space-x-3">
@@ -79,7 +95,9 @@ defineOptions({
 
 const form = useForm({
     title: '',
-    status: 'Active'
+    status: 'Active',
+    start_date: '',
+    end_date: ''
 });
 
 const submit = () => {
