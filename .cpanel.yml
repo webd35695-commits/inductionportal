@@ -2,11 +2,8 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/rstrind/public_html/
-    - /bin/rm -rf $DEPLOYPATH/*                  # Clear old files
+    - /bin/rm -rf $DEPLOYPATH/* || true
     - /bin/rm -rf $DEPLOYPATH/.* 2>/dev/null || true
-    - /bin/cp -R Induction-App/public/* $DEPLOYPATH/   # Copy ONLY the public folder contents
-    - /bin/cp -R Induction-App/public/.htaccess $DEPLOYPATH/ 2>/dev/null || true   # Copy .htaccess if exists
-    - /bin/cp -R Induction-App/storage $DEPLOYPATH/ 2>/dev/null || true   # Optional: for storage access
-    - /bin/cp -R Induction-App/.env $DEPLOYPATH/ 2>/dev/null || true      # Copy .env (needed for config)
-    - /bin/chmod 644 $DEPLOYPATH/.env 2>/dev/null || true
-    - echo "Deployment successful - only public files copied!"
+    - /bin/cp -R Induction-App/public/* $DEPLOYPATH/ || true
+    - /bin/cp -R Induction-App/public/.htaccess $DEPLOYPATH/ 2>/dev/null || true
+    - echo "Deployed only public files!"
