@@ -1,13 +1,11 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/rstind/public_html/
+    - export DEPLOYPATH=/home/tstind/public_html/
     - /bin/rm -rf $DEPLOYPATH/* || true
     - /bin/rm -rf $DEPLOYPATH/.* 2>/dev/null || true
     - /bin/cp -r inductionapp/Induction-App/public/* $DEPLOYPATH/ || true
     - /bin/cp -r inductionapp/Induction-App/public/.htaccess $DEPLOYPATH/ 2>/dev/null || true
     - /bin/chmod 644 $DEPLOYPATH/.htaccess || true
     - /bin/chmod 755 $DEPLOYPATH || true
-    - /bin/find $DEPLOYPATH -type d -exec chmod 755 {} \; || true
-    - /bin/find $DEPLOYPATH -type f -exec chmod 644 {} \; || true
-    - echo "Deployed public files successfully!"
+    - echo "Deployed Laravel public files from correct path!"
